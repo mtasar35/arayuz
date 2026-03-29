@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Plus, Hash, Folder, Calendar, CheckSquare, Clock, AlertCircle } from 'lucide-react';
+import { Plus, Hash, Calendar, CheckSquare, AlertCircle } from 'lucide-react';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { Input } from './ui/input';
 import { Card, CardContent } from './ui/card';
+import { appShell } from '@/config';
 
 export default function Sidebar({ categories, selectedCategory, onCategorySelect, onAddCategory, tasks }) {
   const [showAddCategory, setShowAddCategory] = useState(false);
@@ -144,8 +145,8 @@ export default function Sidebar({ categories, selectedCategory, onCategorySelect
 
       {/* Footer */}
       <div className="pt-4 border-t border-border/40">
-        <div className="text-xs text-muted-foreground text-center">
-          <p>Built with ❤️ for productivity</p>
+        <div className="text-xs text-muted-foreground text-center px-2">
+          <p>{appShell.sidebar.footerNote}</p>
         </div>
       </div>
     </div>

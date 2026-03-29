@@ -22,7 +22,7 @@ export default function StatsCards({ tasks }) {
       icon: TrendingUp,
       color: 'text-blue-600',
       bgColor: 'bg-blue-50',
-      change: '+12%'
+      change: totalTasks === 0 ? 'Örnek veri' : `${totalTasks} kayıt`
     },
     {
       title: 'Completed',

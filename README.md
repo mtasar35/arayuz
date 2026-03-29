@@ -1,70 +1,43 @@
-# Getting Started with Create React App
+# TaskFlow — frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Görev panosu arayüzü: **React 19**, **Tailwind CSS**, **CRACO**, Radix tabanlı bileşenler.
 
-## Available Scripts
+Bu klasörü başka bir projeye kopyalayarak aynı arayüzü kullanabilirsiniz.
 
-In the project directory, you can run:
+## Hızlı başlangıç
 
-### `npm start`
+```bash
+cd frontend
+copy .env.example .env
+npm install
+npm start
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Windows’ta `copy`, macOS/Linux’ta `cp .env.example .env` kullanın.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+`npm install` için ek bayrak gerekmez; proje kökünde `.npmrc` ile uyumluluk ayarlıdır.
 
-### `npm test`
+## Yapılandırma
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. **`src/config/appShell.js`** — Uygulama adı, logo, `storage.prefix`, örnek kategoriler ve sidebar metni.
+2. **`.env`** (`.env.example` dosyasından kopyalayın):
+   - `REACT_APP_NAME` — başlık
+   - `REACT_APP_STORAGE_PREFIX` — `localStorage` öneki (ve `id`)
+   - `REACT_APP_LOGO_URL` — header görseli
+   - `REACT_APP_API_URL` — backend kök adresi (sonunda `/` yok); `src/lib/api.js` içinde kullanılır
 
-### `npm run build`
+Görev verisi şu an tarayıcıda (`localStorage`) tutulur. API bağlamak için `src/components/Dashboard.jsx` içindeki state’i kendi isteklerinizle değiştirin; URL için `import { getApiBaseUrl, apiUrl } from '@/config'` kullanabilirsiniz (`src/config/index.js` bunları `api.js` üzerinden dışa aktarır).
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Komutlar
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+| Komut | Açıklama |
+|--------|----------|
+| `npm start` | Geliştirme sunucusu |
+| `npm run build` | Üretim derlemesi |
+| `npm run lint` | ESLint (`eslint.config.mjs`) |
+| `npm test` | Testler |
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Notlar
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- `storage.prefix` veya `REACT_APP_STORAGE_PREFIX` değişince eski `localStorage` verisi okunmaz.
+- Gizli anahtarları `.env` içinde tutun; bu dosya `.gitignore` ile repoya eklenmez. Paylaşılan varsayılanlar için `.env.example` kullanın.

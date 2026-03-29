@@ -1,11 +1,12 @@
 import React from 'react';
 import { Toaster } from './components/ui/sonner';
 import Dashboard from './components/Dashboard';
+import { appShell } from '@/config';
 import './App.css';
 
 function App() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+    <div className={appShell.layout.pageClassName}>
       <Dashboard />
       <Toaster />
     </div>

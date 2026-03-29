@@ -1,29 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Search, Filter, Calendar, CheckCircle2, Circle, Clock } from 'lucide-react';
+import { Plus, Search } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { Badge } from './ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
+import { Tabs, TabsList, TabsTrigger } from './ui/tabs';
 import TaskBoard from './TaskBoard';
 import TaskForm from './TaskForm';
 import Sidebar from './Sidebar';
 import StatsCards from './StatsCards';
+import { appShell, storageKey } from '@/config';
 
 export default function Dashboard() {
   const [tasks, setTasks] = useState(() => {
-    const savedTasks = localStorage.getItem('notion-tasks');
-    return savedTasks ? JSON.parse(savedTasks) : [];
+    const raw = localStorage.getItem(storageKey('tasks'));
+    return raw ? JSON.parse(raw) : [];
   });
   
   const [categories, setCategories] = useState(() => {
-    const savedCategories = localStorage.getItem('notion-categories');
-    return savedCategories ? JSON.parse(savedCategories) : [
-      { id: 1, name: 'Work', color: 'blue' },
-      { id: 2, name: 'Personal', color: 'green' },
-      { id: 3, name: 'Shopping', color: 'purple' },
-      { id: 4, name: 'Health', color: 'pink' }
-    ];
+    const raw = localStorage.getItem(storageKey('categories'));
+    return raw ? JSON.parse(raw) : appShell.demo.seedCategories;
   });
   
   const [showTaskForm, setShowTaskForm] = useState(false);
@@ -35,12 +29,16 @@ export default function Dashboard() {
 
   // Save to localStorage whenever tasks or categories change
   useEffect(() => {
-    localStorage.setItem('notion-tasks', JSON.stringify(tasks));
+    localStorage.setItem(storageKey('tasks'), JSON.stringify(tasks));
   }, [tasks]);
 
   useEffect(() => {
-    localStorage.setItem('notion-categories', JSON.stringify(categories));
+    localStorage.setItem(storageKey('categories'), JSON.stringify(categories));
   }, [categories]);
+
+  useEffect(() => {
+    document.title = appShell.branding.name;
+  }, []);
 
   const addTask = (taskData) => {
     const newTask = {
@@ -109,13 +107,13 @@ export default function Dashboard() {
         <header className="glass border-b border-border/40 p-6 sticky top-0 z-40">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-4">
-              <h1 className="text-3xl font-bold text-foreground">TaskMaster</h1>
-              <div 
-                className="w-16 h-16 rounded-xl bg-cover bg-center glass-card" 
-                style={{ 
-                  backgroundImage: `url('https://images.unsplash.com/photo-1593062096033-9a26b09da705?w=64&h=64&fit=crop')` 
-                }}
-              />
+              <h1 className="text-3xl font-bold text-foreground">{appShell.branding.name}</h1>
+              {appShell.branding.logoUrl ? (
+                <div 
+                  className="w-16 h-16 rounded-xl bg-cover bg-center glass-card" 
+                  style={{ backgroundImage: `url('${appShell.branding.logoUrl}')` }}
+                />
+              ) : null}
             </div>
             <Button 
               onClick={() => setShowTaskForm(true)}
@@ -131,7 +129,7 @@ export default function Dashboard() {
             <div className="relative flex-1 max-w-md">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
               <Input
-                placeholder="Search tasks..."
+                placeholder={appShell.branding.searchPlaceholder}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10 glass-card border-0"

@@ -169,7 +169,7 @@ export default function TaskCalendar({ tasks, categories, onUpdateTask, onDelete
         {/* Today's Tasks Detail */}
         <div className="mt-6">
           <h3 className="text-lg font-semibold mb-4 flex items-center space-x-2">
-            <span>Today's Tasks</span>
+            <span>Today&apos;s tasks</span>
             <Badge variant="secondary">{getTasksForDate(new Date()).length}</Badge>
           </h3>
           
